@@ -1,0 +1,71 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Meine Matches</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-grid *ngIf="loading" class="loading-container">
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-spinner></ion-spinner>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid *ngIf="!loading && myMatches.length === 0" class="empty-state">
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-icon name="clipboard-outline" size="large" color="medium"></ion-icon>
+        <ion-text>
+          <h2>Keine Anmeldungen</h2>
+        </ion-text>
+        <ion-text color="medium">
+          <p>Du hast dich noch für kein Match angemeldet</p>
+        </ion-text>
+        <ion-button routerLink="/tabs/matches" fill="outline">
+          <ion-icon name="search-outline" slot="start"></ion-icon>
+          Matches entdecken
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-list *ngIf="!loading && myMatches.length > 0">
+    <ion-item
+      *ngFor="let myMatch of myMatches"
+      button
+      (click)="viewMatch(myMatch.match.id!)"
+      detail="true"
+    >
+      <ion-thumbnail slot="start" *ngIf="myMatch.match.image_url">
+        <img [src]="myMatch.match.image_url" [alt]="myMatch.match.title" />
+      </ion-thumbnail>
+      <ion-thumbnail slot="start" *ngIf="!myMatch.match.image_url">
+        <ion-icon name="football-outline" class="placeholder-icon"></ion-icon>
+      </ion-thumbnail>
+      
+      <ion-label>
+        <ion-text color="dark">
+          <h2>{{ myMatch.match.title }}</h2>
+        </ion-text>
+        <ion-note>
+          <ion-icon name="calendar-outline"></ion-icon>
+          {{ getFormattedDate(myMatch.match.date, myMatch.match.time) }}
+        </ion-note>
+        <ion-note>
+          <ion-icon name="location-outline"></ion-icon>
+          {{ myMatch.match.location }}
+        </ion-note>
+        <ion-badge color="success" class="status-badge">
+          <ion-icon name="checkmark-circle-outline"></ion-icon>
+          Angemeldet
+        </ion-badge>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

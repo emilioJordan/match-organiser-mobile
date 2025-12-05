@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Match Organizer</string>
+    <string name="title_activity_main">Match Organizer</string>
+    <string name="package_name">ch.bbw.matchorganizer</string>
+    <string name="custom_url_scheme">ch.bbw.matchorganizer</string>
+</resources>

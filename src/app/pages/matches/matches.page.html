@@ -1,0 +1,76 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Alle Matches</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar
+      [(ngModel)]="searchTerm"
+      (ionInput)="filterMatches()"
+      placeholder="Match suchen..."
+      animated="true"
+    ></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-grid *ngIf="loading" class="loading-container">
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-spinner></ion-spinner>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid *ngIf="!loading && filteredMatches.length === 0" class="empty-state">
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-icon name="football-outline" size="large"></ion-icon>
+        <ion-text>
+          <h2>Keine Matches gefunden</h2>
+        </ion-text>
+        <ion-text color="medium">
+          <p *ngIf="searchTerm">Versuche einen anderen Suchbegriff</p>
+          <p *ngIf="!searchTerm">Es gibt noch keine Matches</p>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-list *ngIf="!loading && filteredMatches.length > 0">
+    <ion-item
+      *ngFor="let match of filteredMatches"
+      button
+      (click)="viewMatch(match.id!)"
+      detail="true"
+    >
+      <ion-thumbnail slot="start" *ngIf="match.image_url">
+        <img [src]="match.image_url" [alt]="match.title" />
+      </ion-thumbnail>
+      <ion-thumbnail slot="start" *ngIf="!match.image_url">
+        <ion-icon name="football-outline" class="placeholder-icon"></ion-icon>
+      </ion-thumbnail>
+      
+      <ion-label>
+        <ion-text color="dark">
+          <h2>{{ match.title }}</h2>
+        </ion-text>
+        <ion-note>
+          <ion-icon name="calendar-outline"></ion-icon>
+          {{ getFormattedDate(match.date, match.time) }}
+        </ion-note>
+        <ion-note>
+          <ion-icon name="location-outline"></ion-icon>
+          {{ match.location }}
+        </ion-note>
+        <ion-note class="participants">
+          <ion-icon name="people-outline"></ion-icon>
+          Max. {{ match.max_participants }} Teilnehmer
+        </ion-note>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

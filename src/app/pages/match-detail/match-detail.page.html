@@ -1,0 +1,160 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/matches"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Match Details</ion-title>
+    <ion-buttons slot="end" *ngIf="canEdit">
+      <ion-button (click)="editMatch()">
+        <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="deleteMatch()">
+        <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid *ngIf="loading" class="loading-container">
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-spinner></ion-spinner>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid *ngIf="!loading && match">
+    <ion-row>
+      <ion-col size="12">
+        <!-- Hero Image -->
+        <ion-card class="hero-card" *ngIf="match.image_url">
+          <img [src]="match.image_url" [alt]="match.title" />
+        </ion-card>
+        <ion-card class="hero-placeholder" *ngIf="!match.image_url">
+          <ion-card-content class="ion-text-center">
+            <ion-icon name="football-outline" size="large" color="medium"></ion-icon>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Title -->
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>{{ match.title }}</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+
+        <!-- Description -->
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>
+              <ion-icon name="document-text-outline"></ion-icon>
+              Beschreibung
+            </ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-text>{{ match.description }}</ion-text>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Date & Time -->
+        <ion-card>
+          <ion-card-content>
+            <ion-item lines="none">
+              <ion-icon name="calendar-outline" color="primary" slot="start"></ion-icon>
+              <ion-label>
+                <ion-text color="dark">
+                  <strong>Datum & Zeit</strong>
+                </ion-text>
+                <ion-text color="medium">
+                  <p>{{ getFormattedDate() }}</p>
+                </ion-text>
+              </ion-label>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Location -->
+        <ion-card>
+          <ion-card-content>
+            <ion-item lines="none">
+              <ion-icon name="location-outline" color="primary" slot="start"></ion-icon>
+              <ion-label>
+                <ion-text color="dark">
+                  <strong>Ort</strong>
+                </ion-text>
+                <ion-text color="medium">
+                  <p>{{ match.location }}</p>
+                </ion-text>
+              </ion-label>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Participants -->
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>
+              <ion-icon name="people-outline"></ion-icon>
+              Teilnehmer ({{ participants.length }}/{{ match.max_participants }})
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-list *ngIf="participants.length > 0">
+              <ion-item *ngFor="let participant of participants" lines="none">
+                <ion-icon name="person-circle-outline" slot="start" color="primary"></ion-icon>
+                <ion-label>
+                  <ion-text color="dark">
+                    <h3>{{ participant.user_name }}</h3>
+                  </ion-text>
+                  <ion-text color="medium">
+                    <p>{{ participant.user_email }}</p>
+                  </ion-text>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+            <ion-text *ngIf="participants.length === 0" color="medium" class="ion-text-center">
+              <p>Noch keine Anmeldungen</p>
+            </ion-text>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Action Buttons -->
+        <ion-card class="action-buttons">
+          <ion-card-content>
+            <ion-button
+              *ngIf="!isRegistered && participants.length < match.max_participants"
+              expand="block"
+              color="success"
+              (click)="register()"
+            >
+              <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+              Anmelden
+            </ion-button>
+
+            <ion-button
+              *ngIf="isRegistered"
+              expand="block"
+              color="warning"
+              fill="outline"
+              (click)="unregister()"
+            >
+              <ion-icon name="close-circle-outline" slot="start"></ion-icon>
+              Abmelden
+            </ion-button>
+
+            <ion-badge
+              *ngIf="participants.length >= match.max_participants && !isRegistered"
+              color="danger"
+              class="full-badge"
+            >
+              <ion-icon name="ban-outline"></ion-icon>
+              Match ist voll
+            </ion-badge>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+

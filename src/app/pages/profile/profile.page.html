@@ -1,0 +1,99 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Profil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid class="profile-container">
+    <ion-row>
+      <ion-col size="12" class="ion-text-center">
+        <ion-card class="avatar-card">
+          <ion-card-content>
+            <ion-avatar class="profile-avatar">
+              <ion-icon name="person-circle-outline" size="large"></ion-icon>
+            </ion-avatar>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="12">
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Benutzerinformationen</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="stacked">Name</ion-label>
+          <ion-input
+            [(ngModel)]="userProfile.name"
+            placeholder="Dein Name"
+            type="text"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">E-Mail</ion-label>
+          <ion-input
+            [(ngModel)]="userProfile.email"
+            placeholder="deine@email.com"
+            type="email"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Ich bin Organisator</ion-label>
+          <ion-toggle [(ngModel)]="userProfile.isOrganizer"></ion-toggle>
+        </ion-item>
+
+        <ion-button expand="block" (click)="saveProfile()" class="save-btn">
+          <ion-icon name="save-outline" slot="start"></ion-icon>
+          Speichern
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Einstellungen</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-icon name="moon-outline" slot="start"></ion-icon>
+          <ion-label>Dark Mode</ion-label>
+          <ion-toggle
+            [checked]="isDarkMode()"
+            (ionChange)="toggleDarkMode()"
+          ></ion-toggle>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-subtitle>
+          <ion-icon name="information-circle-outline"></ion-icon>
+          App-Informationen
+        </ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item lines="none">
+          <ion-label>
+            <ion-text color="dark">
+              <h3>Match Organizer</h3>
+            </ion-text>
+            <ion-text color="medium">
+              <p>Version 1.0.0</p>
+              <p>Modul 335 - Mobile-Applikation realisieren</p>
+            </ion-text>
+          </ion-label>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

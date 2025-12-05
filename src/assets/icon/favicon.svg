@@ -1,0 +1,10 @@
+<!-- Placeholder SVG for app icon -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="#1e40af"/>
+  <circle cx="256" cy="256" r="120" fill="white" stroke="#ffffff" stroke-width="8"/>
+  <circle cx="256" cy="200" r="20" fill="#1e40af"/>
+  <circle cx="220" cy="250" r="20" fill="#1e40af"/>
+  <circle cx="292" cy="250" r="20" fill="#1e40af"/>
+  <circle cx="256" cy="300" r="20" fill="#1e40af"/>
+  <text x="256" y="400" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="white" text-anchor="middle">MO</text>
+</svg>

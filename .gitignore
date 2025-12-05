@@ -1,0 +1,96 @@
+# Dependencies
+/node_modules
+/dist
+/www
+/platforms
+/plugins
+/.sourcemaps
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log*
+yarn-error.log
+testem.log
+/typings
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Android
+/android/.gradle
+/android/.idea
+/android/app/release
+/android/app/debug
+/android/build
+/android/local.properties
+/android/*.iml
+/android/.DS_Store
+/android/captures
+/android/gradlew
+/android/gradlew.bat
+/android/.externalNativeBuild
+android/app/google-services.json
+
+# iOS
+/ios/App/Podfile.lock
+/ios/App/Pods
+/ios/App/App.xcworkspace/xcuserdata
+/ios/App/App.xcodeproj/xcuserdata
+
+# Environment files (mit sensitive Daten)
+# .env
+# .env.local
+# .env.*.local
+
+# Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Output
+out-tsc
+out
+tmp
+
+# Build outputs
+/www
+/platforms
+/plugins
+
+# Capacitor
+/android/app/build
+/ios/App/build
+.capacitor
+
+# Optional
+.angular

@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "chrome",
+      "request": "launch",
+      "name": "🌐 Launch Chrome (Dev Server)",
+      "url": "http://localhost:8100",
+      "webRoot": "${workspaceFolder}/src",
+      "sourceMaps": true,
+      "preLaunchTask": "🚀 Start Dev Server"
+    },
+    {
+      "type": "chrome",
+      "request": "attach",
+      "name": "🔗 Attach to Chrome",
+      "port": 9222,
+      "webRoot": "${workspaceFolder}/src"
+    }
+  ]
+}
