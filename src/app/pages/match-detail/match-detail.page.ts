@@ -42,8 +42,10 @@ export class MatchDetailPage implements OnInit {
     
     const userProfile = await this.storageService.getUserProfile();
     if (userProfile && this.match) {
-      this.canEdit = userProfile.email === this.match.created_by && userProfile.isOrganizer;
-      this.isRegistered = this.participants.some(p => p.user_email === userProfile.email);
+      // Verwende Email als temporäre User-ID bis Auth implementiert ist
+      const userId = userProfile.email || 'anonymous';
+      this.canEdit = userId === this.match.created_by && userProfile.isOrganizer;
+      this.isRegistered = this.participants.some(p => p.user_id === userId);
     }
     
     this.loading = false;
@@ -79,19 +81,15 @@ export class MatchDetailPage implements OnInit {
     });
     await loading.present();
 
-    const participant: Participant = {
-      match_id: this.match.id!,
-      user_name: userProfile.name,
-      user_email: userProfile.email,
-      status: 'registered'
-    };
+    // Verwende Email als temporäre User-ID bis Auth implementiert ist
+    const userId = userProfile.email || 'anonymous';
 
-    const result = await this.supabaseService.registerParticipant(participant);
+    const result = await this.supabaseService.registerForMatch(this.match.id!, userId);
     await loading.dismiss();
 
     if (result) {
       this.isRegistered = true;
-      this.participants.push(result);
+      await this.loadMatchDetails(this.match.id!); // Reload participants
       
       // Schedule notification
       const matchDateTime = new Date(`${this.match.date}T${this.match.time}`);
@@ -132,25 +130,23 @@ export class MatchDetailPage implements OnInit {
           text: 'Abmelden',
           handler: async () => {
             const userProfile = await this.storageService.getUserProfile();
-            const myParticipation = this.participants.find(p => p.user_email === userProfile?.email);
+            const userId = userProfile?.email || 'anonymous';
             
-            if (myParticipation) {
-              const success = await this.supabaseService.unregisterParticipant(myParticipation.id!);
+            const success = await this.supabaseService.unregisterFromMatch(this.match!.id!, userId);
+            
+            if (success) {
+              this.isRegistered = false;
+              await this.loadMatchDetails(this.match!.id!); // Reload participants
               
-              if (success) {
-                this.isRegistered = false;
-                this.participants = this.participants.filter(p => p.id !== myParticipation.id);
-                
-                // Cancel notification
-                await this.notificationService.cancelNotification(this.match!.id!);
+              // Cancel notification
+              await this.notificationService.cancelNotification(this.match!.id!);
 
-                const toast = await this.toastController.create({
-                  message: 'Erfolgreich abgemeldet',
-                  duration: 2000,
-                  color: 'success'
-                });
-                await toast.present();
-              }
+              const toast = await this.toastController.create({
+                message: 'Erfolgreich abgemeldet',
+                duration: 2000,
+                color: 'success'
+              });
+              await toast.present();
             }
           }
         }

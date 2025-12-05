@@ -20,9 +20,8 @@ export interface Match {
 export interface Participant {
   id?: number;
   match_id: number;
-  user_name: string;
-  user_email: string;
-  status: 'registered' | 'cancelled';
+  user_id: string;
+  status: string;
   created_at?: string;
 }
 
@@ -124,7 +123,7 @@ export class SupabaseService {
     return data || [];
   }
 
-  async registerParticipant(participant: Participant): Promise<Participant | null> {
+  async registerParticipant(participant: Omit<Participant, 'id' | 'created_at'>): Promise<Participant | null> {
     const { data, error } = await this.supabase
       .from('participants')
       .insert([participant])
@@ -138,14 +137,40 @@ export class SupabaseService {
     return data;
   }
 
+  async registerForMatch(matchId: number, userId: string): Promise<boolean> {
+    const { error } = await this.supabase
+      .from('participants')
+      .insert([{ match_id: matchId, user_id: userId, status: 'registered' }]);
+    
+    if (error) {
+      console.error('Error registering for match:', error);
+      return false;
+    }
+    return true;
+  }
+
   async unregisterParticipant(participantId: number): Promise<boolean> {
     const { error } = await this.supabase
       .from('participants')
-      .update({ status: 'cancelled' })
+      .delete()
       .eq('id', participantId);
     
     if (error) {
       console.error('Error unregistering participant:', error);
+      return false;
+    }
+    return true;
+  }
+
+  async unregisterFromMatch(matchId: number, userId: string): Promise<boolean> {
+    const { error } = await this.supabase
+      .from('participants')
+      .delete()
+      .eq('match_id', matchId)
+      .eq('user_id', userId);
+    
+    if (error) {
+      console.error('Error unregistering from match:', error);
       return false;
     }
     return true;

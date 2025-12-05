@@ -1,332 +1,55 @@
 # Projektantrag: Match Organizer
+**ÜK Modul 335 - Mobile Applikation realisieren**
 
-## Allgemeine Informationen
+## 1. Projektübersicht
 
-| **Projekt**           | Match Organizer - Mobile Hybrid App                          |
-|-----------------------|--------------------------------------------------------------|
-| **Modul**             | ÜK 335 - Mobile Applikation realisieren                      |
-| **Lernender**         | [Ihr Name]                                                   |
-| **Firma**             | [Ihre Firma]                                                 |
-| **Betreuer**          | [Betreuer Name]                                              |
-| **Datum**             | 4. Dezember 2025                                             |
-| **Bearbeitungszeit**  | ca. 40-50 Stunden                                            |
-| **Technologie**       | Ionic Framework 7, Angular 17, Capacitor 5, Supabase         |
+### Ausgangslage
+Sport-Matches in Freundesgruppen und Vereinen werden oft chaotisch über WhatsApp organisiert. Niemand hat Überblick über An-/Abmeldungen.
 
----
-
-## 1. Projektbeschreibung
-
-### 1.1 Ausgangslage
-
-In vielen Sportclubs, Freundesgruppen und Vereinen ist die Organisation von Matches (Fussball, Basketball, Volleyball etc.) oft chaotisch. WhatsApp-Gruppen werden überflutet, Excel-Listen sind schnell veraltet, und niemand hat den Überblick, wer sich an- oder abgemeldet hat.
-
-### 1.2 Projektziel
-
-Entwicklung einer **Mobile Hybrid App** (PWA + Android), die es ermöglicht:
-- 🏟️ **Matches zu organisieren**: Organisatoren können Matches erstellen, bearbeiten und löschen
-- 👥 **Teilnehmerverwaltung**: Spieler können sich unkompliziert an- und abmelden
-- 📱 **Mobile-First**: Optimiert für Smartphones mit nativen Features
-- 🔔 **Benachrichtigungen**: Push-Notifications bei wichtigen Ereignissen
-- 📍 **Standortbasiert**: GPS-Integration für Match-Locations
-- 📸 **Multimedial**: Fotos vom Match-Ort hochladen
-
-### 1.3 Zielgruppe
-
-- Sportvereine und Freizeitgruppen
-- Hobbymannschaften ohne professionelle Verwaltung
-- Organisatoren, die einfache digitale Tools suchen
-- Spieler, die spontan an Matches teilnehmen möchten
+### Projektziel
+Mobile Hybrid App (PWA + Android) zur Organisation von Sport-Matches mit:
+- ⚽ **CRUD für Matches**: Erstellen, Bearbeiten, Löschen
+- 👥 **Teilnehmerverwaltung**: An-/Abmeldungen
+- 📱 **Native Features**: Kamera, GPS, Push-Notifications
+- �️ **Supabase Backend**: PostgreSQL + Storage
 
 ---
 
-## 2. Anforderungen (ÜK Modul 335)
-
-### 2.1 Pflichtanforderungen
+## 2. Anforderungen ÜK 335
 
 | Nr. | Anforderung | Umsetzung | Status |
 |-----|-------------|-----------|--------|
-| 1 | Ionic Framework | Ionic 7 mit Angular 17 | ✅ |
-| 2 | Minimum 4 Views | 5 Views: Matches, My Matches, Create, Detail, Profile | ✅ |
-| 3 | Supabase Integration | PostgreSQL DB mit Auth & Storage | ✅ |
-| 4 | CRUD Operationen | Create, Read, Update, Delete für Matches & Participants | ✅ |
-| 5 | Device Interface 1 | **Camera** - Fotos hochladen | ✅ |
-| 6 | Device Interface 2 | **Geolocation** - GPS-Standort erfassen | ✅ |
-| 7 | Device Interface 3 | **Local Notifications** - Erinnerungen | ✅ |
-| 8 | Device Interface 4 | **Preferences** - Offline-Speicherung | ✅ |
-| 9 | Custom Theming | Primary Blue (#1e40af) + Dark Mode | ✅ |
-| 10 | App Icon & Splash | Custom Branding | ✅ |
-
-### 2.2 Optionale Erweiterungen
-
-- 🔍 **Suchfunktion**: Matches nach Titel, Location, Beschreibung filtern
-- 🔄 **Pull-to-Refresh**: Aktualisierung der Match-Liste
-- ⚡ **Reactive Forms**: Validierung bei Match-Erstellung
-- 🎨 **Manual Dark Mode**: Toggle-Switch statt Auto-Detection
-- 📊 **Participant Count**: Automatische Berechnung freier Plätze
+| 1 | Ionic Framework | Ionic 7 + Angular 17 | ✅ |
+| 2 | Min. 4 Views | 5 Pages: Matches, My Matches, Create, Detail, Profile | ✅ |
+| 3 | Supabase | PostgreSQL DB + Storage | ✅ |
+| 4 | CRUD | Create, Read, Update, Delete (Matches + Participants) | ✅ |
+| 5-8 | Device APIs | Camera, GPS, Notifications, Preferences | ✅ |
+| 9 | Theming | Custom Colors + Dark Mode | ✅ |
+| 10 | Branding | App Icon + Splashscreen | ✅ |
 
 ---
 
-## 3. User Stories
+## 3. User Stories (Auswahl)
 
-### US-01: Match-Übersicht anzeigen
-**Als** Spieler  
-**möchte ich** alle verfügbaren Matches sehen  
-**damit** ich einen Überblick über kommende Spiele habe.
+**US-01: Match-Liste anzeigen** - Spieler sehen alle verfügbaren Matches mit Datum, Ort, freien Plätzen
 
-**Akzeptanzkriterien:**
-- Liste zeigt: Titel, Datum, Location, freie Plätze
-- Sortierung nach Datum (neueste zuerst)
-- Leere Liste zeigt "Keine Matches verfügbar"
+**US-02: Match erstellen** - Organisator erstellt Match mit Foto (Kamera) und GPS-Standort
 
----
+**US-03: An-/Abmelden** - Spieler melden sich an (mit Push-Notification-Planung) oder ab
 
-### US-02: Nach Matches suchen
-**Als** Spieler  
-**möchte ich** Matches nach Titel oder Ort suchen  
-**damit** ich schnell relevante Spiele finde.
+**US-04: Dark Mode** - Benutzer wechselt zwischen hellem/dunklem Design (persistiert)
 
-**Akzeptanzkriterien:**
-- Suchfeld durchsucht Titel, Location und Beschreibung
-- Echtzeit-Filterung während Eingabe
-- Clear-Button zum Zurücksetzen
+**US-05: Eigene Matches** - Separate Ansicht für registrierte Matches
 
 ---
 
-### US-03: Match erstellen
-**Als** Organisator  
-**möchte ich** ein neues Match erstellen  
-**damit** Spieler sich anmelden können.
+## 4. Datenbank-Modell
 
-**Akzeptanzkriterien:**
-- Pflichtfelder: Titel, Datum, Location, Max. Teilnehmer
-- Optional: Beschreibung, Foto, GPS-Koordinaten
-- Validierung: Datum in der Zukunft, Max. Teilnehmer > 0
-- Erfolgsmeldung nach Speichern
+### Supabase Schema (Produktiv)
 
----
+![ER-Diagramm](docs/supabase-schema.png)
 
-### US-04: Foto vom Match-Ort hochladen
-**Als** Organisator  
-**möchte ich** ein Foto vom Spielfeld hochladen  
-**damit** Spieler den Ort besser finden.
-
-**Akzeptanzkriterien:**
-- Auswahl: Kamera oder Galerie
-- Vorschau vor dem Hochladen
-- Automatischer Upload zu Supabase Storage
-- Fehlermeldung bei Upload-Problemen
-
----
-
-### US-05: GPS-Standort erfassen
-**Als** Organisator  
-**möchte ich** meinen aktuellen Standort als Match-Location speichern  
-**damit** ich nicht manuell Koordinaten eingeben muss.
-
-**Akzeptanzkriterien:**
-- Button "Aktueller Standort"
-- Berechtigungsabfrage für Standortzugriff
-- Anzeige von Latitude/Longitude im Formular
-- Fehlerbehandlung bei fehlender Berechtigung
-
----
-
-### US-06: An Match anmelden
-**Als** Spieler  
-**möchte ich** mich für ein Match anmelden  
-**damit** der Organisator weiss, dass ich teilnehme.
-
-**Akzeptanzkriterien:**
-- Button "Anmelden" nur wenn Plätze frei sind
-- Bestätigung "Erfolgreich angemeldet"
-- Automatische Aktualisierung der Teilnehmerzahl
-- Notification-Planung für Erinnerung
-
----
-
-### US-07: Von Match abmelden
-**Als** Spieler  
-**möchte ich** mich von einem Match abmelden  
-**damit** mein Platz für andere frei wird.
-
-**Akzeptanzkriterien:**
-- Button "Abmelden" nur wenn bereits angemeldet
-- Bestätigungsdialog "Wirklich abmelden?"
-- Automatische Aktualisierung der Teilnehmerzahl
-- Stornierung geplanter Notifications
-
----
-
-### US-08: Match bearbeiten
-**Als** Organisator  
-**möchte ich** meine Matches bearbeiten oder löschen  
-**damit** ich Änderungen vornehmen kann.
-
-**Akzeptanzkriterien:**
-- Edit/Delete-Buttons nur für eigene Matches
-- Bearbeitung öffnet Formular mit Vorbelegung
-- Löschung nach Bestätigungsdialog
-- Erfolgsmeldung nach Aktion
-
----
-
-### US-09: Dark Mode aktivieren
-**Als** Benutzer  
-**möchte ich** zwischen hellem und dunklem Design wechseln  
-**damit** ich die App auch nachts angenehm nutzen kann.
-
-**Akzeptanzkriterien:**
-- Toggle-Switch im Profil
-- Sofortige Anwendung ohne Neustart
-- Persistierung der Einstellung
-- Anpassung aller Farben (Primary, Secondary, Background)
-
----
-
-### US-10: Meine Matches anzeigen
-**Als** Spieler  
-**möchte ich** nur Matches sehen, bei denen ich angemeldet bin  
-**damit** ich meine Termine im Blick habe.
-
-**Akzeptanzkriterien:**
-- Separate Tab "My Matches"
-- Filter: Matches mit user_id = aktueller User
-- Sortierung nach Datum
-- Direkte Navigation zu Match-Details
-
----
-
-## 4. Storyboard / UI-Mockup
-
-```
-┌─────────────────────────────────────────────────────────┐
-│                    MATCH ORGANIZER                      │
-└─────────────────────────────────────────────────────────┘
-
-┌─────────── 1. MATCHES (Liste) ────────────┐
-│  🔍 [Suche nach Titel, Ort...]           │
-│                                           │
-│  ┌─────────────────────────────────────┐ │
-│  │ ⚽ Fussball am Dienstag             │ │
-│  │ 📍 Sportplatz Zürich                │ │
-│  │ 📅 10.12.2025 18:00                 │ │
-│  │ 👥 8/12 Plätze belegt               │ │
-│  └─────────────────────────────────────┘ │
-│                                           │
-│  ┌─────────────────────────────────────┐ │
-│  │ 🏀 Basketball Turnier               │ │
-│  │ 📍 Halle Bern                       │ │
-│  │ 📅 15.12.2025 16:00                 │ │
-│  │ 👥 10/10 Plätze belegt (VOLL)       │ │
-│  └─────────────────────────────────────┘ │
-│                                           │
-│  [+ Neues Match]                         │
-└───────────────────────────────────────────┘
-        │ Tap auf Match
-        ▼
-┌─────────── 2. MATCH DETAILS ──────────────┐
-│  ⚽ Fussball am Dienstag                  │
-│  📍 Sportplatz Zürich (47.3769, 8.5417)  │
-│  📅 10. Dezember 2025, 18:00 Uhr         │
-│  👥 8/12 Teilnehmer                      │
-│                                           │
-│  📝 Beschreibung:                         │
-│  "Lockeres Freundschaftsspiel, alle      │
-│   Niveaus willkommen!"                   │
-│                                           │
-│  📸 [Foto vom Spielfeld]                 │
-│                                           │
-│  ✅ Teilnehmer:                           │
-│    • Max Mustermann                      │
-│    • Anna Schmidt                        │
-│    • Tom Weber                           │
-│    • ...                                 │
-│                                           │
-│  [✅ Anmelden] [❌ Abmelden]              │
-│  [✏️ Bearbeiten] [🗑️ Löschen]            │
-└───────────────────────────────────────────┘
-
-
-┌─────────── 3. CREATE MATCH ───────────────┐
-│  Neues Match erstellen                    │
-│                                           │
-│  Titel *                                  │
-│  [Fussball am Dienstag____________]      │
-│                                           │
-│  Datum & Zeit *                           │
-│  [10.12.2025] [18:00]                    │
-│                                           │
-│  Location *                               │
-│  [Sportplatz Zürich_______________]      │
-│  [📍 Aktueller Standort]                 │
-│                                           │
-│  Max. Teilnehmer *                        │
-│  [12___]                                  │
-│                                           │
-│  Beschreibung                             │
-│  [Lockeres Spiel für alle Niveaus...]   │
-│                                           │
-│  Foto                                     │
-│  [📷 Foto aufnehmen] [🖼️ Aus Galerie]    │
-│  [Vorschau: spielfeld.jpg]               │
-│                                           │
-│  [Speichern] [Abbrechen]                 │
-└───────────────────────────────────────────┘
-
-
-┌─────────── 4. MY MATCHES ─────────────────┐
-│  Meine angemeldeten Matches               │
-│                                           │
-│  ┌─────────────────────────────────────┐ │
-│  │ ⚽ Fussball am Dienstag             │ │
-│  │ 📅 10.12.2025 18:00                 │ │
-│  │ 📍 Sportplatz Zürich                │ │
-│  └─────────────────────────────────────┘ │
-│                                           │
-│  ┌─────────────────────────────────────┐ │
-│  │ ⚽ Donnerstag-Kick                   │ │
-│  │ 📅 12.12.2025 19:00                 │ │
-│  │ 📍 Arena Basel                      │ │
-│  └─────────────────────────────────────┘ │
-│                                           │
-│  [Noch keine Anmeldungen]                │
-└───────────────────────────────────────────┘
-
-
-┌─────────── 5. PROFILE ────────────────────┐
-│  Profil                                   │
-│                                           │
-│  👤 User ID: user-abc-123                │
-│                                           │
-│  ⚙️ Einstellungen                         │
-│                                           │
-│  🌙 Dark Mode                             │
-│  [ ━━━━●══ ]  (Toggle Switch)            │
-│                                           │
-│  📊 Statistiken                           │
-│  • Angemeldete Matches: 2                │
-│  • Erstellte Matches: 5                  │
-│                                           │
-│  🔔 Benachrichtigungen                    │
-│  [x] Match-Erinnerungen                  │
-│  [x] Neue Anmeldungen (als Organisator)  │
-│                                           │
-│  📱 App-Infos                             │
-│  Version: 1.0.0                          │
-│  Framework: Ionic 7 + Angular 17         │
-└───────────────────────────────────────────┘
-
-
-┌─────────── BOTTOM TABS ───────────────────┐
-│  [🏟️ Matches] [⚡ My] [➕ Create] [👤 Profile] │
-└───────────────────────────────────────────┘
-```
-
----
-
-## 5. Datenbank-Modell
-
-### 5.1 ER-Diagramm (Entity-Relationship)
+**Tabellen:**
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────┐
@@ -335,25 +58,25 @@ Entwicklung einer **Mobile Hybrid App** (PWA + Android), die es ermöglicht:
 │  ┌───────────────────────────┐         ┌───────────────────────────┐   │
 │  │    MATCHES (Tabelle)      │         │  PARTICIPANTS (Tabelle)   │   │
 │  ├───────────────────────────┤         ├───────────────────────────┤   │
-│  │ 🔑 id (PK, UUID)          │◄────────┤ 🔑 id (PK, UUID)          │   │
-│  │ 📝 title (TEXT)           │       1:N│ 🔗 match_id (FK, UUID)    │   │
-│  │ 📄 description (TEXT)     │         │ 👤 user_id (TEXT)         │   │
-│  │ 📅 date (TIMESTAMP)       │         │ 👤 user_name (TEXT)       │   │
-│  │ 📍 location (TEXT)        │         │ ⏰ registered_at          │   │
-│  │ 🌍 latitude (FLOAT)       │         └───────────────────────────┘   │
-│  │ 🌍 longitude (FLOAT)      │                                         │
-│  │ 👥 max_participants (INT) │         🔒 RLS Policy:                  │
-│  │ 🖼️ image_url (TEXT)       │         • INSERT: Alle                  │
-│  │ 👤 organizer_id (TEXT)    │         • DELETE: Nur eigene            │
-│  │ ⏰ created_at (TIMESTAMP) │         • SELECT: Alle                  │
-│  │ ⏰ updated_at (TIMESTAMP) │                                         │
+│  │ 🔑 id (PK, BIGSERIAL)     │◄────────┤ 🔑 id (PK, BIGSERIAL)     │   │
+│  │ 📝 title (TEXT)           │      1:N│ 🔗 match_id (FK, BIGINT)  │   │
+│  │ 📄 description (TEXT)     │         │ 👤 user_id (UUID)         │   │
+│  │ 📅 date (TEXT)            │         │ � status (TEXT)          │   │
+│  │ ⏰ time (TEXT)            │         │ ⏰ created_at (TIMESTAMPTZ)│  │
+│  │ 📍 location (TEXT)        │         └───────────────────────────┘   │
+│  │ 🌍 latitude (FLOAT8)      │                                         │
+│  │ 🌍 longitude (FLOAT8)     │         🔒 RLS Policy:                  │
+│  │ � max_participants (INT) │         • SELECT: Alle                  │
+│  │ �️ image_url (TEXT)       │         • INSERT: auth.uid() = user_id  │
+│  │ 👤 created_by (UUID)      │         • DELETE: auth.uid() = user_id  │
+│  │ ⏰ created_at (TIMESTAMPTZ)│                                         │
 │  └───────────────────────────┘                                         │
 │                                                                          │
 │  🔒 RLS Policy:                                                         │
 │  • SELECT: Alle Matches lesbar                                         │
-│  • INSERT: Alle können erstellen                                       │
-│  • UPDATE: Nur organizer_id = aktueller User                           │
-│  • DELETE: Nur organizer_id = aktueller User                           │
+│  • INSERT: Authentifizierte User können erstellen                      │
+│  • UPDATE: Nur created_by = aktueller User                             │
+│  • DELETE: Nur created_by = aktueller User                             │
 │                                                                          │
 │  ┌───────────────────────────────────────────────────────────────┐     │
 │  │           SUPABASE STORAGE (match-images Bucket)              │     │
@@ -371,13 +94,13 @@ Entwicklung einer **Mobile Hybrid App** (PWA + Android), die es ermöglicht:
 ```
 
 **Entitäten:**
-- **MATCHES**: Speichert alle Matches mit Details (Titel, Datum, Location, GPS)
-- **PARTICIPANTS**: Speichert Anmeldungen (welcher User bei welchem Match)
+- **MATCHES**: Speichert alle Matches mit Details (Titel, Datum, Zeit, Location, GPS)
+- **PARTICIPANTS**: Speichert Anmeldungen mit user_id (UUID) und status
 - **STORAGE**: Speichert hochgeladene Fotos vom Match-Ort
 
 **Relationen:**
 - Ein Match kann viele Teilnehmer haben (1:N)
-- Ein Teilnehmer ist immer einem Match zugeordnet
+- Ein Teilnehmer ist immer einem Match zugeordnet (Foreign Key: match_id)
 - Beim Löschen eines Matches werden alle Teilnehmer automatisch gelöscht (CASCADE)
 - Jedes Match kann ein Foto haben (0:1 Relation zu Storage)
 
@@ -386,45 +109,48 @@ Entwicklung einer **Mobile Hybrid App** (PWA + Android), die es ermöglicht:
 - `CHECK (max_participants > 0)`: Mindestens 1 Teilnehmer erforderlich
 - `ON DELETE CASCADE`: Beim Löschen eines Matches werden Teilnehmer mitgelöscht
 
+**Datentypen-Hinweise:**
+- `id`: BIGSERIAL (automatisch inkrementiert) statt UUID für einfachere Handhabung
+- `date` & `time`: TEXT-Format (YYYY-MM-DD, HH:MM) für Frontend-Kompatibilität
+- `user_id`: UUID für zukünftige Supabase Auth Integration
+- `created_at`: TIMESTAMPTZ (Timestamp with Timezone) für genaue Zeiterfassung
+
 ### 5.2 SQL Schema (Supabase Setup)
 
 #### Schritt 1: Tabellen erstellen
 
 ```sql
--- UUID Extension aktivieren (falls nicht vorhanden)
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
 -- Tabelle: matches
-CREATE TABLE IF NOT EXISTS matches (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    title TEXT NOT NULL,
-    description TEXT,
-    date TIMESTAMP NOT NULL,
-    location TEXT NOT NULL,
-    latitude DOUBLE PRECISION,
-    longitude DOUBLE PRECISION,
-    max_participants INTEGER NOT NULL CHECK (max_participants > 0),
-    image_url TEXT,
-    organizer_id TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT NOW(),
-    updated_at TIMESTAMP DEFAULT NOW()
+CREATE TABLE matches (
+  id BIGSERIAL PRIMARY KEY,
+  title TEXT NOT NULL,
+  description TEXT,
+  date TEXT NOT NULL,
+  time TEXT NOT NULL,
+  location TEXT NOT NULL,
+  latitude DOUBLE PRECISION,
+  longitude DOUBLE PRECISION,
+  max_participants INTEGER NOT NULL,
+  image_url TEXT,
+  created_by UUID REFERENCES auth.users(id),
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
 -- Tabelle: participants
-CREATE TABLE IF NOT EXISTS participants (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    match_id UUID NOT NULL REFERENCES matches(id) ON DELETE CASCADE,
-    user_id TEXT NOT NULL,
-    user_name TEXT NOT NULL,
-    registered_at TIMESTAMP DEFAULT NOW(),
-    UNIQUE(match_id, user_id)
+CREATE TABLE participants (
+  id BIGSERIAL PRIMARY KEY,
+  match_id BIGINT REFERENCES matches(id) ON DELETE CASCADE,
+  user_id UUID REFERENCES auth.users(id),
+  status TEXT DEFAULT 'registered',
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  UNIQUE(match_id, user_id)
 );
 
 -- Indizes für Performance
 CREATE INDEX idx_matches_date ON matches(date);
-CREATE INDEX idx_matches_organizer ON matches(organizer_id);
-CREATE INDEX idx_participants_match ON participants(match_id);
-CREATE INDEX idx_participants_user ON participants(user_id);
+CREATE INDEX idx_matches_created_by ON matches(created_by);
+CREATE INDEX idx_participants_match_id ON participants(match_id);
+CREATE INDEX idx_participants_user_id ON participants(user_id);
 ```
 
 #### Schritt 2: Row Level Security (RLS) Policies
@@ -440,36 +166,36 @@ CREATE POLICY "Matches sind öffentlich lesbar"
 ON matches FOR SELECT
 USING (true);
 
--- Policy: Alle können Matches erstellen
-CREATE POLICY "Jeder kann Matches erstellen"
+-- Policy: Authentifizierte User können Matches erstellen
+CREATE POLICY "Authentifizierte User können Matches erstellen"
 ON matches FOR INSERT
-WITH CHECK (true);
+WITH CHECK (auth.uid() = created_by);
 
--- Policy: Nur Organisator kann eigene Matches bearbeiten
-CREATE POLICY "Organisator kann eigene Matches bearbeiten"
+-- Policy: Nur Creator kann eigene Matches bearbeiten
+CREATE POLICY "User können eigene Matches bearbeiten"
 ON matches FOR UPDATE
-USING (organizer_id = current_setting('request.jwt.claims', true)::json->>'sub');
+USING (auth.uid() = created_by);
 
--- Policy: Nur Organisator kann eigene Matches löschen
-CREATE POLICY "Organisator kann eigene Matches löschen"
+-- Policy: Nur Creator kann eigene Matches löschen
+CREATE POLICY "User können eigene Matches löschen"
 ON matches FOR DELETE
-USING (organizer_id = current_setting('request.jwt.claims', true)::json->>'sub');
+USING (auth.uid() = created_by);
 
 -- PARTICIPANTS Policies
 -- Policy: Alle können Teilnehmer sehen
-CREATE POLICY "Teilnehmer sind öffentlich lesbar"
+CREATE POLICY "Participants sind öffentlich lesbar"
 ON participants FOR SELECT
 USING (true);
 
--- Policy: Alle können sich registrieren
-CREATE POLICY "Teilnehmer können sich registrieren"
+-- Policy: User können sich selbst anmelden
+CREATE POLICY "User können sich selbst anmelden"
 ON participants FOR INSERT
-WITH CHECK (true);
+WITH CHECK (auth.uid() = user_id);
 
--- Policy: Alle können eigene Registrierungen löschen
-CREATE POLICY "Teilnehmer können sich abmelden"
+-- Policy: User können sich selbst abmelden
+CREATE POLICY "User können sich selbst abmelden"
 ON participants FOR DELETE
-USING (user_id = current_setting('request.jwt.claims', true)::json->>'sub');
+USING (auth.uid() = user_id);
 ```
 
 #### Schritt 3: Storage Bucket für Bilder erstellen
@@ -501,16 +227,20 @@ USING (bucket_id = 'match-images' AND auth.uid()::text = owner);
 #### Schritt 4: Test-Daten einfügen (optional)
 
 ```sql
--- Test-Match erstellen
-INSERT INTO matches (title, description, date, location, max_participants, organizer_id)
+-- Test-Match erstellen (benötigt gültige UUID von auth.users)
+-- Für Demo ohne Auth: created_by kann NULL sein oder als TEXT-Feld geändert werden
+INSERT INTO matches (title, description, date, time, location, max_participants, created_by)
 VALUES 
 ('Fussball am Dienstag', 'Lockeres Freundschaftsspiel für alle Niveaus', 
- '2025-12-10 18:00:00', 'Sportplatz Zürich', 12, 'test-user-123');
+ '2025-12-10', '18:00', 'Sportplatz Zürich', 12, NULL);
 
 -- Test-Teilnehmer hinzufügen
-INSERT INTO participants (match_id, user_id, user_name)
-SELECT id, 'user-456', 'Max Mustermann' FROM matches WHERE title = 'Fussball am Dienstag';
+INSERT INTO participants (match_id, user_id, status)
+SELECT id, NULL, 'registered' FROM matches WHERE title = 'Fussball am Dienstag' LIMIT 1;
 ```
+
+**Hinweis für Entwicklung ohne Auth:**
+Da Supabase Auth noch nicht implementiert ist, können `created_by` und `user_id` temporär auch als TEXT gespeichert werden (z.B. Email-Adresse als Identifier). In der finalen Version sollte Supabase Auth aktiviert werden.
 
 #### Schritt 5: Environment Variables konfigurieren
 

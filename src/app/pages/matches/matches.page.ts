@@ -30,60 +30,9 @@ export class MatchesPage implements OnInit {
 
   async loadMatches() {
     this.loading = true;
-    
-    // Mock-Daten für Demo (ohne Supabase)
-    this.matches = [
-      {
-        id: 1,
-        title: 'Fussball am Dienstag',
-        description: 'Lockeres Freundschaftsspiel für alle Niveaus',
-        date: '2025-12-10',
-        time: '18:00',
-        location: 'Sportplatz Zürich',
-        latitude: 47.3769,
-        longitude: 8.5417,
-        max_participants: 12,
-        image_url: '',
-        created_by: 'user-123',
-        created_at: new Date().toISOString()
-      },
-      {
-        id: 2,
-        title: 'Basketball Match',
-        description: 'Suchen noch Spieler für 5vs5',
-        date: '2025-12-12',
-        time: '19:00',
-        location: 'Sporthalle Bern',
-        latitude: 46.9480,
-        longitude: 7.4474,
-        max_participants: 10,
-        image_url: '',
-        created_by: 'user-456',
-        created_at: new Date().toISOString()
-      },
-      {
-        id: 3,
-        title: 'Volleyball Turnier',
-        description: 'Freundschaftliches Turnier am Wochenende',
-        date: '2025-12-15',
-        time: '14:00',
-        location: 'Beach Arena Basel',
-        latitude: 47.5596,
-        longitude: 7.5886,
-        max_participants: 16,
-        image_url: '',
-        created_by: 'user-789',
-        created_at: new Date().toISOString()
-      }
-    ];
-    
+    this.matches = await this.supabaseService.getMatches();
     this.filteredMatches = [...this.matches];
     this.loading = false;
-    
-    // Original Supabase Code (auskommentiert)
-    // this.matches = await this.supabaseService.getMatches();
-    // this.filteredMatches = [...this.matches];
-    // this.loading = false;
   }
 
   filterMatches() {
