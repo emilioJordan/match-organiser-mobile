@@ -10,9 +10,9 @@ export interface Match {
   time: string;
   location: string;
   max_participants: number;
-  latitude?: number;
-  longitude?: number;
-  image_url?: string;
+  latitude?: number | null;
+  longitude?: number | null;
+  image_url?: string | null;
   created_by: string;
   created_at?: string;
 }
@@ -67,17 +67,32 @@ export class SupabaseService {
   }
 
   async createMatch(match: Match): Promise<Match | null> {
-    const { data, error } = await this.supabase
-      .from('matches')
-      .insert([match])
-      .select()
-      .single();
-    
-    if (error) {
-      console.error('Error creating match:', error);
-      return null;
+    try {
+      console.log('Supabase: Sending match data:', match);
+      
+      const { data, error } = await this.supabase
+        .from('matches')
+        .insert([match])
+        .select()
+        .single();
+      
+      if (error) {
+        console.error('Supabase Error creating match:', error);
+        console.error('Error details:', {
+          message: error.message,
+          details: error.details,
+          hint: error.hint,
+          code: error.code
+        });
+        throw new Error(error.message || 'Fehler beim Erstellen des Matches');
+      }
+      
+      console.log('Supabase: Match created successfully:', data);
+      return data;
+    } catch (error: any) {
+      console.error('Supabase: Exception in createMatch:', error);
+      throw error;
     }
-    return data;
   }
 
   async updateMatch(id: number, match: Partial<Match>): Promise<Match | null> {
@@ -147,6 +162,52 @@ export class SupabaseService {
       return false;
     }
     return true;
+  }
+
+  // Hole alle Matches eines Users (wo er angemeldet ist)
+  async getMyMatches(userId: string): Promise<Match[]> {
+    try {
+      console.log('Fetching matches for userId:', userId);
+      
+      // Hole alle participant Einträge des Users
+      const { data: participantData, error: participantError } = await this.supabase
+        .from('participants')
+        .select('match_id')
+        .eq('user_id', userId)
+        .eq('status', 'registered');
+      
+      if (participantError) {
+        console.error('Error fetching user participants:', participantError);
+        return [];
+      }
+      
+      if (!participantData || participantData.length === 0) {
+        console.log('User has no match registrations');
+        return [];
+      }
+      
+      // Extrahiere die Match-IDs
+      const matchIds = participantData.map(p => p.match_id);
+      console.log('User is registered for match IDs:', matchIds);
+      
+      // Hole die Matches mit diesen IDs
+      const { data: matchesData, error: matchesError } = await this.supabase
+        .from('matches')
+        .select('*')
+        .in('id', matchIds)
+        .order('date', { ascending: true });
+      
+      if (matchesError) {
+        console.error('Error fetching matches:', matchesError);
+        return [];
+      }
+      
+      console.log('Found matches:', matchesData?.length || 0);
+      return matchesData || [];
+    } catch (error) {
+      console.error('Exception in getMyMatches:', error);
+      return [];
+    }
   }
 
   async unregisterParticipant(participantId: number): Promise<boolean> {

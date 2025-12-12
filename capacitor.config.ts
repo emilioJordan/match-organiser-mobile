@@ -10,12 +10,17 @@ const config: CapacitorConfig = {
   plugins: {
     SplashScreen: {
       launchShowDuration: 2000,
+      launchAutoHide: true,
       backgroundColor: '#1e40af',
       androidSplashResourceName: 'splash',
       androidScaleType: 'CENTER_CROP',
       showSpinner: false,
       splashFullScreen: true,
-      splashImmersive: true
+      splashImmersive: true,
+      // Dark Mode Support
+      useDialog: false,
+      iosSpinnerStyle: 'large',
+      androidSpinnerStyle: 'large'
     },
     LocalNotifications: {
       smallIcon: 'ic_stat_icon_config_sample',

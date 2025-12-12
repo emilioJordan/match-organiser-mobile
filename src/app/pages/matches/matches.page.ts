@@ -8,7 +8,7 @@ import { StorageService } from '../../services/storage.service';
   templateUrl: './matches.page.html',
   styleUrls: ['./matches.page.scss'],
 })
-export class MatchesPage implements OnInit {
+export class MatchesPageComponent implements OnInit {
   matches: Match[] = [];
   filteredMatches: Match[] = [];
   loading = false;

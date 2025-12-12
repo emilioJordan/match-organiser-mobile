@@ -42,8 +42,8 @@ export class MatchDetailPage implements OnInit {
     
     const userProfile = await this.storageService.getUserProfile();
     if (userProfile && this.match) {
-      // Verwende Email als temporäre User-ID bis Auth implementiert ist
-      const userId = userProfile.email || 'anonymous';
+      // Verwende userId für Match-Vergleich
+      const userId = userProfile.userId || 'anonymous';
       this.canEdit = userId === this.match.created_by && userProfile.isOrganizer;
       this.isRegistered = this.participants.some(p => p.user_id === userId);
     }
@@ -81,8 +81,8 @@ export class MatchDetailPage implements OnInit {
     });
     await loading.present();
 
-    // Verwende Email als temporäre User-ID bis Auth implementiert ist
-    const userId = userProfile.email || 'anonymous';
+    // Verwende userId statt Email
+    const userId = userProfile.userId || 'anonymous';
 
     const result = await this.supabaseService.registerForMatch(this.match.id!, userId);
     await loading.dismiss();

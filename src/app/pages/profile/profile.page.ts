@@ -12,7 +12,8 @@ export class ProfilePage implements OnInit {
   userProfile = {
     name: '',
     email: '',
-    isOrganizer: false
+    isOrganizer: false,
+    userId: ''
   };
 
   constructor(

@@ -28,12 +28,31 @@ export class StorageService {
   }
 
   // Specific methods for match data
-  async saveUserProfile(profile: { name: string; email: string; isOrganizer: boolean }) {
+  async saveUserProfile(profile: { name: string; email: string; isOrganizer: boolean; userId?: string }) {
+    // Generiere eine UUID wenn keine vorhanden ist
+    if (!profile.userId) {
+      profile.userId = this.generateUUID();
+    }
     await this.set('userProfile', profile);
   }
 
-  async getUserProfile(): Promise<{ name: string; email: string; isOrganizer: boolean } | null> {
-    return await this.get('userProfile');
+  async getUserProfile(): Promise<{ name: string; email: string; isOrganizer: boolean; userId: string } | null> {
+    const profile = await this.get('userProfile');
+    if (profile && !profile.userId) {
+      // Füge UUID hinzu wenn noch keine vorhanden
+      profile.userId = this.generateUUID();
+      await this.saveUserProfile(profile);
+    }
+    return profile;
+  }
+
+  // Generiere eine einfache UUID v4
+  private generateUUID(): string {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      const r = Math.random() * 16 | 0;
+      const v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
   }
 
   async saveFavoriteMatches(matchIds: number[]) {

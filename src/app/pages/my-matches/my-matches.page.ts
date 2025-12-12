@@ -35,17 +35,35 @@ export class MyMatchesPage implements OnInit {
     this.loading = true;
     const userProfile = await this.storageService.getUserProfile();
     
-    if (!userProfile?.email) {
+    if (!userProfile?.userId) {
+      console.log('No user profile or userId found');
+      this.myMatches = [];
       this.loading = false;
       return;
     }
 
-    // Hier würde normalerweise eine API-Anfrage kommen, um alle Anmeldungen zu holen
-    // Für diese Demo laden wir alle Matches und filtern lokal
-    const allMatches = await this.supabaseService.getMatches();
-    this.myMatches = [];
-
-    // In einer echten Implementierung würde dies serverseitig geschehen
+    console.log('Loading matches for user:', userProfile.userId);
+    
+    // Hole alle Matches wo der User angemeldet ist
+    const matches = await this.supabaseService.getMyMatches(userProfile.userId);
+    
+    // Hole die Participant-Details für jedes Match
+    const myMatchesPromises = matches.map(async (match) => {
+      const participants = await this.supabaseService.getParticipants(match.id!);
+      const myParticipation = participants.find(p => p.user_id === userProfile.userId);
+      
+      return {
+        match: match,
+        participant: myParticipation || {
+          match_id: match.id!,
+          user_id: userProfile.userId,
+          status: 'registered'
+        }
+      } as MyMatch;
+    });
+    
+    this.myMatches = await Promise.all(myMatchesPromises);
+    console.log('Loaded my matches:', this.myMatches.length);
     this.loading = false;
   }
 
